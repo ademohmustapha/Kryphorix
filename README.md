@@ -1,19 +1,19 @@
 ---
 
-# 📄 PROFESSIONAL README FOR SENTINELX
+# 📄 PROFESSIONAL README FOR KRYPHORIX
 
 ```
-# 🛡️ SentinelX — Advanced Security Assessment Framework
+# 🛡️ Kryphorix — Advanced Security Assessment Framework
 
-**SentinelX** is a modular security assessment and vulnerability scanning framework designed for comprehensive infrastructure, web, API, and directory security analysis.
+**Kryphorix** is a modular security assessment and vulnerability scanning framework designed for comprehensive infrastructure, web, API, and directory security analysis.
 
-Built for security researchers, system administrators, and penetration testers, SentinelX delivers automated risk detection, structured reporting, and actionable remediation guidance.
+Built for security researchers, system administrators, and penetration testers, Kryphorix delivers automated risk detection, structured reporting, and actionable remediation guidance.
 
 ---
 
 ## 🚀 Core Capabilities
 
-SentinelX performs **multi-surface security assessments** across:
+Kryphorix performs **multi-surface security assessments** across:
 
 | Module | Purpose |
 |--------|---------|
@@ -42,11 +42,11 @@ SentinelX performs **multi-surface security assessments** across:
 
 ```
 
-SentinelX/
+Kryphorix/
 │
 ├── main.py
 ├── requirements.txt
-├── sentinelX.sh
+├── kryphorix.sh
 │
 ├── modules/
 │   ├── web.py
@@ -63,9 +63,9 @@ SentinelX/
 
 ---
 
-## 🧪 What SentinelX Detects
+## 🧪 What Kryphorix Detects
 
-SentinelX can identify:
+Kryphorix can identify:
 
 - Expired SSL certificates
 - Weak encryption configurations
@@ -79,7 +79,7 @@ SentinelX can identify:
 
 ## 📊 Reporting
 
-SentinelX automatically generates structured security findings including:
+Kryphorix automatically generates structured security findings including:
 
 - Issue Title
 - Severity Level (Info → Critical)
@@ -94,8 +94,8 @@ Designed for both technical and non-technical stakeholders.
 ## 🖥️ Installation
 
 ```bash
-git clone https://github.com/ademohmustapha/SentinelX.git
-cd SentinelX
+git clone https://github.com/ademohmustapha/Kryphorix.git
+cd Kryphorix
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -103,7 +103,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Running SentinelX
+## ▶️ Running Kryphorix
 
 ```bash
 python3 main.py
@@ -112,14 +112,14 @@ python3 main.py
 or
 
 ```bash
-./sentinelX.sh
+./Kryphorix.sh
 ```
 
 ---
 
 ## ⚠️ Legal Disclaimer
 
-SentinelX is intended **strictly for authorized security testing and educational purposes**.
+Kryphorix is intended **strictly for authorized security testing and educational purposes**.
 
 The author is not responsible for misuse or unauthorized deployment.
 
@@ -128,6 +128,7 @@ The author is not responsible for misuse or unauthorized deployment.
 ## 👤 Author
 
 Ademoh Mustapha Onimisi
+
 Cybersecurity Research & Tool Development
 
 ---
@@ -141,9 +142,9 @@ Unauthorized copying, distribution, or use of this tool without permission is pr
 
 ---
 
-## ⭐ Why SentinelX?
+## ⭐ Why Kryphorix?
 
-SentinelX is not just a scanner — it is a security assessment framework designed for growth, extensibility, and professional reporting.
+Kryphorix is not just a scanner — it is a security assessment framework designed for growth, extensibility, and professional reporting.
 
 ````
 
