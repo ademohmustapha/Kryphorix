@@ -29,7 +29,7 @@ def api_scan():
     findings = FindingsManager()
 
     headers = {
-        "User-Agent": "SentinelX Scanner"
+        "User-Agent": "Kryphorix Scanner"
     }
 
     # ---------------------------
