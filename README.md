@@ -1,38 +1,17 @@
-# 📄 PROFESSIONAL README FOR KRYPHORIX
-
-```
 # 🛡️ Kryphorix — Advanced Security Assessment Framework
 
-Kryphorix is a modular security assessment and vulnerability scanning framework designed for comprehensive infrastructure, web, API, and directory security analysis.
-
-Built for security researchers, system administrators, and penetration testers, Kryphorix delivers automated risk detection, structured reporting, and actionable remediation guidance.
+Kryphorix is a modular, professional security assessment and vulnerability scanning tool. It covers infrastructure, web applications, APIs, and Active Directory, designed for cybersecurity professionals and beginners alike.
 
 ---
 
-## 🚀 Core Capabilities
+## 🚀 Core Features
 
-Kryphorix performs multi-surface security assessments across:
-
-| Module | Purpose |
-|--------|---------|
-| 🌐 Web Scanner | Detects web application security misconfigurations and risks |
-| 🔐 TLS/SSL Analyzer | Checks certificate validity, expiration, and encryption issues |
-| 🌍 Port Scanner | Identifies open ports and exposed services |
-| 🧩 API Security Scanner | Detects weak API configurations |
-| 🖥️ Active Directory Scanner | Evaluates AD exposure and domain controller security |
-| 📡 (Planned) Wireless Module | Wireless network risk evaluation |
-
----
-
-## ⚙️ Features
-
-- Modular architecture
-- Risk-based severity scoring
-- Automatic report generation
-- HTML & structured findings output
-- Beginner-friendly CLI interface
-- Designed for cross-platform use
-- Extensible security framework
+- Multi-surface security assessment
+- Modular architecture (Web, API, Active Directory, Ports, TLS/SSL)
+- Automatic PDF & JSON report generation
+- Live scan dashboard with severity tracking
+- Beginner-friendly CLI and menu interface
+- Plugin support for extensibility
 
 ---
 
@@ -56,69 +35,92 @@ Kryphorix/
 └── core/
 ├── findings.py
 ├── reporter.py
+├── engine.py
 
 ````
 
 ---
 
-## 🧪 What Kryphorix Detects
+## 🖥️ Installation Guide (Beginner-Friendly)
 
-Kryphorix can identify:
-
-- Expired SSL certificates
-- Weak encryption configurations
-- Open/exposed network ports
-- Insecure API headers
-- Web security misconfigurations
-- Active Directory exposure risks
-- Missing security best practices
-
----
-
-## 📊 Reporting
-
-Kryphorix automatically generates structured security findings including:
-
-- Issue Title
-- Severity Level (Info → Critical)
-- Description
-- Recommended Fix
-- Risk Score
-
-Designed for both technical and non-technical stakeholders.
-
----
-
-## 🖥️ Installation
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/ademohmustapha/Kryphorix.git
 cd Kryphorix
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
 ````
+
+2. Create a Python virtual environment (recommended):
+
+```bash
+python3 -m venv venv
+```
+
+3. Activate the virtual environment:
+
+* Linux/macOS:
+
+```bash
+source venv/bin/activate
+```
+
+* Windows (PowerShell):
+
+```bash
+venv\Scripts\Activate.ps1
+```
+
+4. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+> ⚠️ Note: If you encounter an “externally-managed environment” error, ensure you are using a virtual environment (`venv`) as shown above.
 
 ---
 
 ## ▶️ Running Kryphorix
 
+### Option 1: Beginner Menu Mode
+
 ```bash
 python3 main.py
 ```
 
-or
+* Follow the on-screen menu.
+* Choose a module (Web, API, AD, Ports, TLS).
+* View real-time scan progress and summary.
+* Reports (PDF + JSON) are automatically saved in the `reports/` folder.
+
+### Option 2: Professional CLI Mode
 
 ```bash
-./Kryphorix.sh
+python3 main.py --web https://example.com --api https://api.example.com --ad 192.168.1.10 --ports 192.168.1.10 --tls example.com
 ```
+
+* Run multiple scans simultaneously.
+* Generate combined reports automatically.
+* Use `--fullscan <target>` to scan all modules at once.
+
+---
+
+## 📊 Reports
+
+* PDF and JSON formats saved in the `reports/` folder.
+* PDF includes:
+
+  * Cover page with logo
+  * Executive summary
+  * Module & severity breakdown
+  * Detailed findings table (color-coded by severity)
+* JSON provides structured data for further analysis.
 
 ---
 
 ## ⚠️ Legal Disclaimer
 
-Kryphorix is intended strictly for authorized security testing and educational purposes.
-
+Kryphorix is strictly for authorized security testing and educational purposes**.
 The author is not responsible for misuse or unauthorized deployment.
 
 ---
@@ -127,25 +129,23 @@ The author is not responsible for misuse or unauthorized deployment.
 
 Ademoh Mustapha Onimisi
 
-Cybersecurity Research & Tool Development
+Cybersecurity Egineering, Research & Tool Development
 
 ---
 
 ## 📜 License
 
 Copyright © 2026 Ademoh Mustapha Onimisi
-All Rights Reserved.
-
+All rights reserved.
 Unauthorized copying, distribution, or use of this tool without permission is prohibited.
 
 ---
 
 ## ⭐ Why Kryphorix?
 
-Kryphorix is not just a scanner — it is a security assessment framework designed for growth, extensibility, and professional reporting.
+Kryphorix is a professional-grade security framework, designed for extensibility, clear reporting, and beginner-to-pro user flexibility.
 
 ````
 
 ---
-
 
