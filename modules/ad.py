@@ -12,43 +12,37 @@ AD_PORTS = {
     3269: "Global Catalog LDAPS"
 }
 
-def check_port(host, port, service, findings):
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(3)
-    try:
-        result = s.connect_ex((host, port))
-        if result == 0:
-            good(f"{service} (Port {port}) is OPEN")
-
-            # Risk checks for exposed services
-            if port in [389, 445, 3268]:
-                findings.add(Finding(
-                    f"{service} Service Exposed",
-                    "High",
-                    f"{service} service is accessible externally on port {port}",
-                    "Restrict AD services to internal network only"
-                ))
-        else:
-            info(f"{service} (Port {port}) is closed")
-    except Exception as e:
-        warn(f"Error checking {service}: {e}")
-    finally:
-        s.close()
-
-def ad_scan():
+def ad_scan(target=None):
     banner()
-    target = input("Enter Domain Controller IP: ").strip()
+    if not target:
+        target = input("Enter Domain Controller IP: ").strip()
 
     findings = FindingsManager()
     info(f"Target Domain Controller: {target}")
-
     section("CHECKING AD SERVICE EXPOSURE")
 
     for port, service in AD_PORTS.items():
-        check_port(target, port, service, findings)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(3)
+        try:
+            result = s.connect_ex((target, port))
+            if result == 0:
+                good(f"{service} (Port {port}) is OPEN")
+                if port in [389,445,3268]:
+                    findings.add(Finding(
+                        f"{service} Service Exposed",
+                        "High",
+                        f"{service} service is accessible externally on port {port}",
+                        "Restrict AD services to internal network only"
+                    ))
+            else:
+                info(f"{service} (Port {port}) is closed")
+        except Exception as e:
+            warn(f"Error checking {service}: {e}")
+        finally:
+            s.close()
 
     section("SMB SIGNING CHECK (basic detection)")
-    # Simple heuristic — presence of SMB might indicate risk
     try:
         s = socket.create_connection((target, 445), timeout=3)
         s.close()
@@ -62,8 +56,7 @@ def ad_scan():
         info("SMB not reachable")
 
     section("SUMMARY OF FINDINGS")
-    summary = findings.summary()
-    for k, v in summary.items():
+    for k,v in findings.summary().items():
         print(f"{k}: {v}")
 
     return findings

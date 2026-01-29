@@ -17,6 +17,8 @@ from rich.progress import Progress, BarColumn, TimeRemainingColumn, TextColumn
 from rich.panel import Panel
 from rich.live import Live
 
+from core.findings import FindingsManager
+
 console = Console()
 
 
@@ -96,7 +98,10 @@ def live_scan_dashboard(scan_tasks):
             for target in targets:
                 try:
                     res = func(target)
-                    res = tag_module(res, name)  # <-- Tag each finding with its module
+                    # --- Option 2 fix ---
+                    if isinstance(res, FindingsManager):
+                        res = res.findings
+                    res = tag_module(res, name)
                     findings += res
                 except Exception as e:
                     console.print(f"[red]Error scanning {target}: {e}[/red]")
@@ -111,36 +116,32 @@ def live_scan_dashboard(scan_tasks):
 # =========================
 def menu_mode():
     banner()
-    console.print(Panel("[bold]Menu Mode[/bold]\nSelect a module to scan:\n1. Web\n2. API\n3. Active Directory\n4. Ports\n5. TLS/SSL\n0. Exit"))
+    console.print(Panel(
+        "[bold]Menu Mode[/bold]\nSelect a module to scan:\n"
+        "1. Web\n2. API\n3. Active Directory\n4. Ports\n5. TLS/SSL\n0. Exit"
+    ))
 
     choice = input("\nSelect option: ").strip()
     findings = []
-
     scan_tasks = []
 
     if choice == "1":
         targets = input("Web URLs (comma-separated): ").split(",")
         scan_tasks.append(("Web", web_scan, [t.strip() for t in targets]))
-
     elif choice == "2":
         targets = input("API URLs (comma-separated): ").split(",")
         scan_tasks.append(("API", api_scan, [t.strip() for t in targets]))
-
     elif choice == "3":
         targets = input("Domain Controller IPs/Hosts (comma-separated): ").split(",")
         scan_tasks.append(("AD", ad_scan, [t.strip() for t in targets]))
-
     elif choice == "4":
         targets = input("Hosts to scan ports (comma-separated): ").split(",")
         scan_tasks.append(("Ports", port_scan, [t.strip() for t in targets]))
-
     elif choice == "5":
         targets = input("Hosts to check TLS/SSL (comma-separated): ").split(",")
         scan_tasks.append(("TLS", tls_check, [t.strip() for t in targets]))
-
     elif choice == "0":
         sys.exit()
-
     else:
         console.print("[red]Invalid choice[/red]")
         return
@@ -150,6 +151,8 @@ def menu_mode():
     # Run plugins
     for plugin in load_plugins():
         plugin_results = plugin()
+        if isinstance(plugin_results, FindingsManager):
+            plugin_results = plugin_results.findings
         plugin_results = tag_module(plugin_results, "Plugin")
         findings += plugin_results
 
@@ -191,6 +194,8 @@ def cli_mode(args):
     # Run plugins
     for plugin in load_plugins():
         plugin_results = plugin()
+        if isinstance(plugin_results, FindingsManager):
+            plugin_results = plugin_results.findings
         plugin_results = tag_module(plugin_results, "Plugin")
         findings += plugin_results
 

@@ -4,43 +4,28 @@ from core.ui import banner, section, info, good, warn, bad
 from core.finding import Finding
 from core.findings import FindingsManager
 
-# ---------------------------
-# Normalize URL
-# ---------------------------
-def normalize_url(url):
-    if not url.startswith(("http://", "https://")):
-        url = "https://" + url
-    return url
-
-# ---------------------------
-# Scan API
-# ---------------------------
-def api_scan():
+def api_scan(url=None):
     banner()
-    url = input("Enter API URL: ").strip()
-    url = normalize_url(url)
-    parsed = urlparse(url)
+    if not url:
+        url = input("Enter API URL: ").strip()
 
+    if not url.startswith(("http://","https://")):
+        url = "https://" + url
+    parsed = urlparse(url)
     if not parsed.netloc:
         bad("Invalid URL")
-        return FindingsManager()
+        return []
 
     info(f"Target API: {url}")
     findings = FindingsManager()
+    headers = {"User-Agent": "Kryphorix Scanner"}
 
-    headers = {
-        "User-Agent": "Kryphorix Scanner"
-    }
-
-    # ---------------------------
-    # OPTIONS request check
-    # ---------------------------
+    # OPTIONS request & CORS
     section("OPTIONS Request & CORS Check")
     try:
-        r = requests.options(url, headers=headers, timeout=(10, 30), allow_redirects=True)
+        r = requests.options(url, headers=headers, timeout=(10,30))
         good(f"Status Code: {r.status_code}")
-
-        cors_headers = r.headers.get("Access-Control-Allow-Headers", "")
+        cors_headers = r.headers.get("Access-Control-Allow-Headers","")
         if "Authorization" not in cors_headers:
             findings.add(Finding(
                 "Weak Auth / CORS Misconfig",
@@ -50,23 +35,10 @@ def api_scan():
             ))
         else:
             good("Authorization header properly restricted")
-
-    except requests.exceptions.ConnectTimeout:
-        warn("Connection timeout")
-    except requests.exceptions.ReadTimeout:
-        warn("Server took too long to respond")
-    except requests.exceptions.SSLError:
-        warn("SSL certificate issue")
-    except requests.exceptions.ConnectionError:
-        bad("Could not connect to API")
-    except requests.exceptions.RequestException as e:
-        bad(f"Request failed: {e}")
     except Exception as e:
-        bad(f"Unexpected error: {e}")
+        warn(f"CORS/OPTIONS check failed: {e}")
 
-    # ---------------------------
-    # GET request check (basic info)
-    # ---------------------------
+    # GET request check
     section("Basic GET Request Check")
     try:
         r = requests.get(url, headers=headers, timeout=10)
@@ -74,12 +46,10 @@ def api_scan():
         server = r.headers.get("Server", "Unknown")
         good(f"Server Info: {server}")
 
-        # Detect common sensitive endpoints
-        sensitive_paths = ["/admin", "/debug", "/config", "/.git"]
-        info("Checking common API paths...")
+        sensitive_paths = ["/admin","/debug","/config","/.git"]
         for path in sensitive_paths:
             try:
-                res = requests.get(url + path, headers=headers, timeout=5)
+                res = requests.get(url+path, headers=headers, timeout=5)
                 if res.status_code == 200:
                     findings.add(Finding(
                         f"Exposed API Path: {path}",
@@ -89,16 +59,12 @@ def api_scan():
                     ))
             except:
                 continue
-
     except Exception as e:
         warn(f"GET request check failed: {e}")
 
-    # ---------------------------
     # Summary
-    # ---------------------------
     section("SUMMARY OF FINDINGS")
-    summary = findings.summary()
-    for sev, count in summary.items():
+    for sev,count in findings.summary().items():
         print(f"{sev}: {count}")
 
     return findings

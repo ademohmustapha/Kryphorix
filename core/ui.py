@@ -10,24 +10,39 @@ class UI:
     BOLD = "\033[1m"
     END = "\033[0m"
 
+
+def supports_color():
+    return sys.stdout.isatty()
+
+
+def color(text, code):
+    if supports_color():
+        return f"{code}{text}{UI.END}"
+    return text
+
+
 def banner():
-    print(UI.CYAN + UI.BOLD)
-    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("        Kryphorix Scanner     ")
-    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + UI.END)
+    print(color(UI.BOLD + UI.CYAN + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", UI.CYAN))
+    print(color("        Kryphorix Scanner     ", UI.CYAN))
+    print(color("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", UI.CYAN))
+
 
 def section(title):
-    print(UI.BLUE + f"\n[ {title} ]" + UI.END)
+    print(color(f"\n[ {title} ]", UI.BLUE))
+
 
 def info(msg):
-    print(UI.CYAN + "[*] " + msg + UI.END)
+    print(color("[*] " + msg, UI.CYAN))
+
 
 def good(msg):
-    print(UI.GREEN + "[+] " + msg + UI.END)
+    print(color("[+] " + msg, UI.GREEN))
+
 
 def warn(msg):
-    print(UI.YELLOW + "[!] " + msg + UI.END)
+    print(color("[!] " + msg, UI.YELLOW))
+
 
 def bad(msg):
-    print(UI.RED + "[-] " + msg + UI.END)
+    print(color("[-] " + msg, UI.RED))
 
