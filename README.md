@@ -28,7 +28,7 @@ It is designed for security auditing, learning, and defensive testing.
 
 
 🛠 Installation
-git clone https://github.com/YOUR_GITHUB_USERNAME/Kryphorix.git
+git clone https://github.com/ademohmustapha/Kryphorix.git
 cd Kryphorix
 
 python3 -m venv venv
