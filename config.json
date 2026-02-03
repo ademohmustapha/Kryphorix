@@ -1,6 +1,7 @@
 {
     "threads": 5,
     "timeout": 8,
-    "scan_common_paths": true
+    "scan_common_paths": true,
+    "scan_paths": ["/etc", "/home", "/var"]
 }
 
